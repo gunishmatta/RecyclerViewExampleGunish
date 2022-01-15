@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOError;
@@ -46,10 +47,15 @@ public class MainActivity extends AppCompatActivity {
         try {
             String jsonDataString = readJSONDataFromFile();
             JSONArray jsonArray=new JSONArray(jsonDataString);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            for (int i=0;i<jsonArray.length();i++)
+            {
+                JSONObject itemObj=jsonArray.getJSONObject(i);
+                String name=itemObj.getString("name");
+                String date=itemObj.getString("date");
+                Holidays holidays=new Holidays(name,date);
+                viewItems.add(holidays);
+            }
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
 
